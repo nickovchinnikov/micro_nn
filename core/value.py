@@ -252,6 +252,22 @@ class Value:
 
         return out
 
+    def relu(self):
+        r"""
+        Compute the rectified linear unit (ReLU) of this Value and return a new Value representing the result.
+
+        Returns:
+            Value: A new Value representing the result.
+        """
+        out = Value(0 if self.data < 0 else self.data, (self,), "ReLU")
+
+        def _backward():
+            self.grad += (out.data > 0) * out.grad
+
+        out._backward = _backward
+
+        return out
+
     def _topo_sort(self) -> List["Value"]:
         r"""
         Perform a topological sort on the graph of Values.

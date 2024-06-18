@@ -21,6 +21,13 @@ class Module:
         """
         raise NotImplementedError
 
+    def zero_grad(self):
+        r"""
+        Zero out the gradients of the parameters of the module.
+        """
+        for param in self.parameters():
+            param.zero_grad()
+
 
 class Neuron(Module):
     r"""
